@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <!-- Student Classes -->
+        <record model="ir.actions.act_window" id="act_open_class_student_view">
+            <field name="name">Classes</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">fs.class</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('student_ids', 'in', active_id)]</field>
+        </record>
+
+        <!-- Student Tree -->
+        <record id="view_op_student_tree" model="ir.ui.view">
+            <field name="name">op.student.tree</field>
+            <field name="model">op.student</field>
+            <field name="priority" eval="8"/>
+            <field name="inherit_id" ref="openeducat_core.view_op_student_tree"/>
+            <field name="arch" type="xml">
+                <xpath expr="//tree" position="replace">
+                    <tree string="Student">
+                        <field name="name"/>
+                        <field name="middle_name"/>
+                        <field name="last_name"/>
+                        <field name="department_id"/>
+                        <field name="section_id"/>
+                        <field name="year_level"/>
+                    </tree>
+                </xpath>
+            </field>
+        </record>
+
+        <!-- Student Profile -->
+        <record id="view_op_student_form" model="ir.ui.view">
+            <field name="name">op.student.form</field>
+            <field name="model">op.student</field>
+            <field name="priority" eval="8" />
+            <field name="inherit_id" ref="openeducat_core.view_op_student_form"/>
+            <field name="arch" type="xml">
+                <!-- Class Button -->
+                <xpath expr="//div[hasclass('oe_title')][2]" position="replace">
+                    <div class="oe_button_box" name="class_button_box" style="width:17%;" attrs="{'invisible':[('is_basic','=', True)]}">
+                        <button type="action"
+                                name="%(act_open_class_student_view)d"
+                                class="oe_stat_button"
+                                icon="fa-calendar">
+                                <field string="Classes" name="class_count" widget="statinfo"/>
+                        </button>
+                    </div>
+                    <div style="clear: both;">
+                        <h1>
+                            <table>
+                                <tr>
+                                    <td style="padding-right:10px;">
+                                        <field name="name" required="1" placeholder="First Name"/>
+                                    </td>
+                                    <td style="padding-right:10px;">
+                                        <field name="middle_name" placeholder="Middle Name"/>
+                                    </td>
+                                    <td style="padding-right:10px;">
+                                        <field name="last_name" placeholder="Last Name" required="1"/>
+                                    </td>
+                                    <td style="padding-right:10px;">
+                                        <field name="ext_name" placeholder="Ext"/>
+                                    </td>
+                                </tr>
+                            </table>
+                        </h1>
+                    </div>
+                </xpath>
+                <!-- Personal Information -->
+                <field name="already_partner" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
+
+                <xpath expr="/form/sheet/div/label" position="replace">
+                    <!-- label for Already partner -->
+                </xpath>
+
+                <xpath expr="//page[@name='personal_information']" position="replace">
+                    <page name="information"
+                          string="Information">
+                        <group col="4" colspan="4" string="Educational Detail" name="educational_detail">
+                            <field name="department_id" required="1" options="{'no_open': True}" placeholder="Department"/>
+                            <field name="account_id"/>
+                            <field name="section_id" required="1" options="{'no_open': True}" placeholder="Section"/>
+                            <field name="user_id" string="User" readonly="1"/>
+                            <field name="year_level" required="1" widget="dropdown"/>
+                            <field name="is_basic" attrs="{'invisible': 1}" />
+                        </group>
+                        <group col="4" colspan="4" string="Personal Detail" name="personal_detail">
+                            <field name="nickname" placeholder="Nickname"/>
+                            <field name="gender"/>
+                            <field name="email" placeholder="Email Address"/>
+                            <field name="birth_date" placeholder="Birth Date"/>
+                            <field name="mobile_number" placeholder="Mobile Number"/>
+                        </group>
+                        <group name="address" string="Address Detail">
+                            <label for="street" string="Address"/>
+                            <div name="div_address">
+                                <field name="street" placeholder="Street..."/>
+                            </div>
+                        </group>
+                    </page>
+                </xpath>
+                <!-- Educational Page -->
+                <xpath expr="//page[@name='educational']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <!-- Skills/Experience -->
+                <xpath expr="//page[@name='information']" position="after">
+                    <page name="skill_and_experience" string="Skills/Experience">
+                        <group name="skill_and_experience">
+                            <separator name="work_experience" string="Work Experience" colspan="4"/>
+                            <field name="work_experience" nolabel="1"/>
+                            <separator name="hard_skills" string="Hard Skills" colspan="4"/>
+                            <field name="hard_skills" nolabel="1"/>
+                            <separator name="soft_skills" string="Soft Skills" colspan="4"/>
+                            <field name="soft_skills" nolabel="1"/>
+                        </group>
+                    </page>
+                </xpath>
+                <!-- About Me -->
+                <xpath expr="//page[@name='skill_and_experience']" position="after">
+                    <page name="about_me" string="About Me">
+                        <group name="about_me">
+                            <separator name="about_me" string="About Me" colspan="4"/>
+                            <field name="about_me" nolabel="1"/>
+                            <separator name="hobbies" string="Hobbies" colspan="4"/>
+                            <field name="hobbies" nolabel="1"/>
+                            <separator name="achievements" string="Achievements" colspan="4"/>
+                            <field name="achievements" nolabel="1"/>
+                            <separator name="desires" string="Desires" colspan="4"/>
+                            <field name="desires" nolabel="1"/>
+                        </group>
+                    </page>
+                </xpath>
+                <!-- Hide Info -->
+                <xpath expr="//notebook" position="attributes">
+                    <attribute name="attrs">{'invisible':[('is_basic','=', True)]}</attribute>
+                </xpath>
+            </field>
+        </record>
+
+        <!-- Student Search -->
+        <record id="view_op_student_search" model="ir.ui.view">
+            <field name="name">op.student.search</field>
+            <field name="model">op.student</field>
+            <field name="priority" eval="8"/>
+            <field name="inherit_id" ref="openeducat_core.view_op_student_search"/>
+            <field name="arch" type="xml">
+                <xpath expr="//search" position="replace">
+                    <search string="Student">
+                        <field name="name"/>
+                        <field name="last_name"/>
+                        <field name="account_id"/>
+                        <newline/>
+                        <group expand="0" string="Group By...">
+                            <filter name="department_id" string="Department"
+                                    domain="[]" context="{'group_by':'department_id'}"/>
+                            <filter name="section_id" string="Section"
+                                    domain="[]" context="{'group_by':'section_id'}"/>
+                            <filter name="year_level" string="Year Level"
+                                    domain="[]" context="{'group_by':'year_level'}"/>
+                        </group>
+                    </search>
+                </xpath>
+            </field>
+        </record>
+
+        <record model="ir.actions.server" id="act_open_op_student_view_updated">
+            <field name="name">Students</field>
+            <field name="model_id" ref="model_op_student"/>
+            <field name="state">code</field>
+            <field name="code">action = model.student_list()</field>
+        </record>
+        <menuitem id="openeducat_core.menu_op_student_main_student"
+            name="Profile"
+            parent="openeducat_core.menu_op_student_root"
+            sequence="20"
+            action="act_open_op_student_view_updated"
+            groups="openeducat_core.group_op_student" />
+        <menuitem id="openeducat_core.menu_op_school_main"
+            name="Students"
+            parent="openeducat_core.menu_op_school_root"
+            sequence="10"
+            action="act_open_op_student_view_updated"
+            groups="openeducat_core.group_op_faculty" />
+
+    </data>
+</odoo>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record model="ir.actions.server" id="action_res_user_access_rights">
+            <field name="name">Users</field>
+            <field name="model_id" ref="model_res_users"/>
+            <field name="state">code</field>
+            <field name="code">action = model.admin_access_rights()</field>
+        </record>
+
+        <menuitem action="action_res_user_access_rights" id="base.menu_action_res_users" parent="base.menu_users" sequence="0"/>
+    </data>
+</odoo>

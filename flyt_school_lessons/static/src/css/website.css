@@ -1,0 +1,19 @@
+footer, #oe_main_menu_navbar .o_menu_systray a[data-action="edit"], .o_main_navbar {
+    background-color: #4819D8;
+}
+
+#oe_main_menu_navbar .o_menu_systray a[data-action="edit"]:hover, .o_main_navbar > ul > li > a:hover {
+    background: #3914aa;
+}
+
+.navbar-default {
+    border-color: #f8f8f8;
+}
+
+body, #footer {
+    background-color: #f8f8f8 !important;
+}
+
+.fs-landingpage {
+    margin: auto;
+}

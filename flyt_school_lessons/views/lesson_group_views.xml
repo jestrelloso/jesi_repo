@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record id="view_lesson_group_tree" model="ir.ui.view">
+            <field name="name">fsl.lesson_group.tree</field>
+            <field name="model">fsl.lesson_group</field>
+            <field name="arch" type="xml">
+                <tree string="Lesson Groups">
+                    <field name="name" />
+                    <field name="lesson_ids" />
+                </tree>
+            </field>
+        </record>
+        <record id="view_lesson_group_form" model="ir.ui.view">
+            <field name="name">fsl.lesson_group.form</field>
+            <field name="model">fsl.lesson_group</field>
+            <field name="arch" type="xml">
+                <form string="Lesson Groups">
+                    <sheet>
+                        <group>
+                            <field name="name" required="1"/>
+                        </group>
+                        <notebook>
+                            <page string="Lessons">
+                                <field name="lesson_ids" context="{'default_lesson_group_id': active_id}" widget="many2many"/>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="view_lesson_group_search" model="ir.ui.view">
+            <field name="name">fsl.lesson_group.search</field>
+            <field name="model">fsl.lesson_group</field>
+            <field name="arch" type="xml">
+                <search string="Lesson Group">
+                    <field name="name" />
+                    <field name="lesson_ids" />
+                </search>
+            </field>
+        </record>
+        <record model="ir.actions.act_window" id="act_open_lesson_group_view">
+            <field name="name">Lesson Groups</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">fsl.lesson_group</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="search_view_id" ref="view_lesson_group_search" />
+        </record>
+
+        <menuitem id="menu_op_school_config_lesson_group" name="Lesson Group Management" parent="openeducat_core.menu_op_school_config" sequence="5"/>
+
+        <menuitem id="menu_op_lesson_group_sub" name="Lesson Groups" parent="menu_op_school_config_lesson_group" action="act_open_lesson_group_view" groups="openeducat_core.group_op_back_office,openeducat_core.group_op_back_office_admin"/>
+    </data>
+</odoo>

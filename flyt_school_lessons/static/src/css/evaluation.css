@@ -1,0 +1,24 @@
+.criteria {
+    border: solid 1px black;
+    padding: 20px;
+}
+
+.tooltip{ 
+    transition: opacity 0.0001s;
+    width: auto;
+    height: auto;
+}
+
+.radio-inline > input[type = "radio"] {
+    visibility: hidden;
+}
+
+.evaluation-view-radio-group.text-center > label, .eval_criteria > label {
+    padding: 0px;
+}
+
+.evaluation-view-radio-group.text-center > span, .eval_criteria > span {
+    position: absolute;
+    float: right;
+    padding: 10px 0px 0px 30px;
+}

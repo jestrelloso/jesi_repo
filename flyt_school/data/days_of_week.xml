@@ -1,0 +1,25 @@
+<odoo>
+    <data>
+        <record id="day1" model="fs.day">
+            <field name="day">Monday</field>
+        </record>
+        <record id="day2" model="fs.day">
+            <field name="day">Tuesday</field>
+        </record>
+        <record id="day3" model="fs.day">
+            <field name="day">Wednesday</field>
+        </record>
+        <record id="day4" model="fs.day">
+            <field name="day">Thursday</field>
+        </record>
+        <record id="day5" model="fs.day">
+            <field name="day">Friday</field>
+        </record>
+        <record id="day6" model="fs.day">
+            <field name="day">Saturday</field>
+        </record>
+        <record id="day7" model="fs.day">
+            <field name="day">Sunday</field>
+        </record>
+    </data>
+</odoo>

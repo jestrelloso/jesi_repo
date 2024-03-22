@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record id="view_semester_tree" model="ir.ui.view">
+            <field name="name">fs.semester.tree</field>
+            <field name="model">fs.semester</field>
+            <field name="arch" type="xml">
+                <tree string="Semester">
+                    <field name="name" />
+                    <field name="start_date" />
+                    <field name="end_date" />
+                </tree>
+            </field>
+        </record>
+        <record id="view_semester_form" model="ir.ui.view">
+            <field name="name">fs.semester.form</field>
+            <field name="model">fs.semester</field>
+            <field name="arch" type="xml">
+                <form string="Semester">
+                    <sheet>
+                        <group>
+                            <field name="name" />
+                            <field name="start_date" />
+                            <field name="end_date" />
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="view_semester_search" model="ir.ui.view">
+            <field name="name">fs.semester.search</field>
+            <field name="model">fs.semester</field>
+            <field name="arch" type="xml">
+                <search string="Semester">
+                    <field name="name" />
+                    <field name="start_date" />
+                    <field name="end_date" />
+                </search>
+            </field>
+        </record>
+        <record model="ir.actions.act_window" id="act_open_semester_view">
+            <field name="name">Semesters</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">fs.semester</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="search_view_id" ref="view_semester_search" />
+        </record>
+
+        <menuitem id="menu_op_school_config_semester" name="Semester Management" parent="openeducat_core.menu_op_school_config" sequence="7"/>
+
+        <menuitem id="menu_op_semester_sub" name="Semesters" parent="menu_op_school_config_semester" action="act_open_semester_view" groups="openeducat_core.group_op_back_office,openeducat_core.group_op_back_office_admin"/>
+    </data>
+</odoo>

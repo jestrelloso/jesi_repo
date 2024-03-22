@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record id="view_class_tree" model="ir.ui.view">
+            <field name="name">fs.class.tree</field>
+            <field name="model">fs.class</field>
+            <field name="arch" type="xml">
+                <tree string="Class">
+                    <field name="name" />
+                    <field name="section_id" />
+                    <field name="subject_id" />
+                    <field name="faculty_id" />
+                    <field name="day_ids" widget="many2many_tags" />
+                    <field name="start_time" widget="float_time"/>
+                    <field name="end_time" widget="float_time"/>
+                    <field name="student_ids"/>
+                </tree>
+            </field>
+        </record>
+        <record id="view_class_form" model="ir.ui.view">
+            <field name="name">fs.class.form</field>
+            <field name="model">fs.class</field>
+            <field name="arch" type="xml">
+                <form string="Class">
+                    <sheet>
+                        <div class="oe_title">
+                            <h1>
+                                <table>
+                                    <tr>
+                                        <td style="padding-right:10px;">
+                                            <field name="name" required="1" placeholder="Class Name"/>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </h1>
+                        </div>
+                        <notebook colspan="4">
+                            <page name="class_information" string="Class Information">
+                                <group col="4" colspan="4" name="class_detail">
+                                    <field name="subject_id" options="{'no_open': True}"/>
+                                    <field name="semester_id" />
+                                    <field name="department_id" required="1" options="{'no_open': True}"/>
+                                    <field name="day_ids" widget="many2many_tags" options="{'no_create_edit': True, 'no_create': True}" />
+                                    <field name="section_id" required="1"/>
+                                    <field name="start_time" widget="float_time" required="1"/>
+                                    <field name="faculty_id" required="1"/>
+                                    <field name="end_time" widget="float_time"/>
+                                </group>
+                            </page>
+                            <page name="class_students" string="Students">
+                                <field name="student_ids"/>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="view_class_search" model="ir.ui.view">
+            <field name="name">fs.class.search</field>
+            <field name="model">fs.class</field>
+            <field name="arch" type="xml">
+                <search string="Class">
+                    <field name="name" />
+                    <field name="section_id" />
+                    <field name="department_id" />
+                    <field name="subject_id" />
+                    <field name="semester_id" />
+                    <field name="start_time" />
+                    <field name="end_time" />
+                    <field name="student_ids"/>
+                    <field name="day_ids"/>
+                    <field name="faculty_id" />
+                </search>
+            </field>
+        </record>
+        <record model="ir.actions.act_window" id="act_open_class_view">
+            <field name="name">Classes</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">fs.class</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="search_view_id" ref="view_class_search" />
+        </record>
+
+        <menuitem id="menu_op_school_config_class" name="Class Management" parent="openeducat_core.menu_op_school_config" sequence="1"/>
+
+        <menuitem id="menu_op_class_sub" name="Classes" parent="menu_op_school_config_class" action="act_open_class_view" groups="openeducat_core.group_op_back_office,openeducat_core.group_op_back_office_admin"/>
+    </data>
+</odoo>

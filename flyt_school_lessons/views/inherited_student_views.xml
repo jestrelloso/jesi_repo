@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <!-- User inputs tree -->
+        <record id="view_survey_user_input_tree" model="ir.ui.view">
+            <field name="name">survey.user_input.tree</field>
+            <field name="model">survey.user_input</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Lesson Evaluations" delete="false">
+                    <field name="survey_id" string="Lesson"/>
+                    <field name="date_create"/>
+                    <field name="evaluation_result_url_html"/>
+                    <field name="duration" groups="openeducat_core.group_op_back_office,openeducat_core.group_op_back_office_admin,openeducat_core.group_op_faculty" />
+                    <field name="quizz_score" string="Score" avg="Total Average"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- Student Kanban -->
+        <record id="kanban_view_student" model="ir.ui.view">
+            <field name="name">Student Kanban</field>
+            <field name="model">op.student</field>
+            <field name="inherit_id" ref="openeducat_core.kanban_view_student"/>
+            <field name="arch" type="xml">
+                <xpath expr="//ul" position="replace">
+                    <ul>
+                        <li t-if="record.account_id.raw_value">
+                            Student ID: <b><field name="account_id"/></b>
+                        </li>
+                        <li t-if="record.department_id.raw_value">
+                            Department: <b><field name="department_id"/></b>
+                        </li>
+                        <li t-if="record.section_id.raw_value">
+                            Section: <b><field name="section_id"/></b>
+                        </li>
+                        <li t-if="record.year_level.raw_value">
+                            Year: <b><field name="year_level"/></b>
+                        </li>
+                    </ul>
+                </xpath>
+            </field>
+        </record>
+        
+          <!-- User inputs tree -->
+        <record id="view_survey_user_input_tree_no_eval" model="ir.ui.view">
+            <field name="name">survey.user_input.tree</field>
+            <field name="model">survey.user_input</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Lesson Evaluations" delete="false">
+                    <field name="survey_id" string="Lesson"/>
+                    <field name="date_create"/>
+                    <field name="evaluation_result_url_html"/>
+                    <field name="duration" groups="openeducat_core.group_op_back_office,openeducat_core.group_op_back_office_admin,openeducat_core.group_op_faculty" />
+                </tree>
+            </field>
+        </record>
+
+        <!-- Lessons to Evaluate tree -->
+        <record id="view_user_input_evaluation_tree" model="ir.ui.view">
+            <field name="name">fsl.user_input_evaluation.tree</field>
+            <field name="model">fsl.user_input_evaluation</field>
+            <field name="arch" type="xml">
+                <tree string="Lessons to Evaluate" delete="false">
+                    <field name="lesson"/>
+                    <field name="evaluatee" groups="openeducat_core.group_op_faculty"/>
+                    <field name="status"/>
+                    <field name="evaluation_url_html"/>
+                    <field name="quizz_score" string="Score" groups="openeducat_core.group_op_back_office,openeducat_core.group_op_back_office_admin,openeducat_core.group_op_faculty"/>
+                </tree>
+            </field>
+        </record>
+        <record model="ir.actions.act_window" id="act_open_evaluations_student_view">
+            <field name="name">Lessons to Evaluate</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">fsl.user_input_evaluation</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree</field>
+            <field name="domain">[('evaluator.user_id', '=', uid)]</field>
+        </record>
+        <record model="ir.actions.act_window" id="act_open_my_evaluations_student_view">
+            <field name="name">Evaluations</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">survey.user_input</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="view_survey_user_input_tree"/>
+            <field name="domain">[('state', '=', 'done'), ('partner_id', '=', active_id)]</field>
+            <field name="context">{'group_by': 'lesson_group_id'}</field>
+        </record>
+        <record model="ir.actions.act_window" id="act_open_class_student_view">
+            <field name="name">Classes</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">fs.class</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('student_ids', 'in', active_id)]</field>
+        </record>
+
+        <record id="view_op_student_form" model="ir.ui.view">
+            <field name="name">op.student.form</field>
+            <field name="model">op.student</field>
+            <field name="priority" eval="8" />
+            <field name="inherit_id" ref="openeducat_core.view_op_student_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="/form/sheet/div" position="after">
+                    <div class="oe_button_box" name="button_box" style="width:17%;" attrs="{'invisible':[('is_basic','=', True)]}">
+                        <button type="object"
+                                name="student_evaluations"
+                                class="oe_stat_button"
+                                icon="fa-pencil-square-o">
+                                <field string="Evaluations" name="eval_count" widget="statinfo"/>
+                        </button>
+                    </div>
+                    <div class="oe_button_box" name="button_box" style="width:17%;" attrs="{'invisible':[('is_basic','=', True)]}">
+                        <!-- Added `To Be Evaluated` button to display questions to be evaluated -->
+                        <button type="object"
+                                name="lessons_to_evaluate"
+                                class="oe_stat_button"
+                                icon="fa-check">
+                            <field string="To Evaluate" name="to_evaluate_count" widget="statinfo"/>
+                        </button>
+                    </div>
+                </xpath>
+                
+                <xpath expr="//notebook" position="before">
+                    <field name="aboutme_video_id" widget="video"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="view_student_open_form" model="ir.ui.view">
+            <field name="name">op.student.open.form</field>
+            <field name="model">op.student</field>
+            <field name="inherit_id" ref="openeducat_core.view_op_student_form"/>
+            <field name="groups_id" eval="[(4,ref('openeducat_core.group_op_faculty'))]"/>
+            <field name="arch" type="xml">
+                <field name="department_id" position="attributes">
+                    <attribute name="options">{'no_open': False}</attribute>
+                </field>
+                <field name="section_id" position="attributes">
+                    <attribute name="options">{'no_open': False}</attribute>
+                </field>
+            </field>
+        </record>
+        
+    </data>
+</odoo>

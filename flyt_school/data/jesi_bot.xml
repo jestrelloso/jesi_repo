@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="jesi_bot_partner_0" model="res.partner">
+            <field name="name">Jesi</field>
+            <field name="email">jesi-bot@jesi-no-reply.bot</field>
+            <field name="image" type="base64" file="flyt_school/static/images/jesi_satisfactory.png" />
+        </record>
+        <record id="jesi_bot_user_0" model="res.users">
+            <field name="name">Jesi</field>
+            <field name="login">jesi-bot@jesi-no-reply.bot</field>
+            <field name="password">axSrEw4fCfErtVZ</field>
+            <field name="partner_id" ref="flyt_school.jesi_bot_partner_0" />
+        </record>
+        <record id="flyt_school.jesi_bot_partner_0" model="res.partner">
+            <field name="user_id" ref="flyt_school.jesi_bot_user_0" />
+        </record>
+    </data>
+</odoo>

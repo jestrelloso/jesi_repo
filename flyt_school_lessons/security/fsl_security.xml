@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record model="ir.rule" id="access_own_evaluations">
+            <field name="name">Access Own Evaluations</field>
+            <field name="model_id" ref="model_fsl_user_input_evaluation" />
+            <field name="domain_force">[('evaluator', '=', user.partner_id.id)]</field>
+        </record>
+        <record id="survey_input_users_access" model="ir.rule">
+            <field name="name">Access to survey user_input for Faculty users</field>
+            <field name="model_id" ref="survey.model_survey_user_input"/>
+            <field name="domain_force">[(1, '=', 1),('partner_id', '!=', False)]</field>
+            <field name="groups" eval="[(4, ref('openeducat_core.group_op_faculty'))]"/>
+            <field eval="0" name="perm_unlink"/>
+            <field eval="0" name="perm_write"/>
+            <field eval="1" name="perm_read"/>
+            <field eval="0" name="perm_create"/>
+        </record>
+    </data>
+</odoo>

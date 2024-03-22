@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_inherit_user_form_openeducat_core_flyt_school" model="ir.ui.view">
+            <field name="name">res.user.form.openeducat.core</field>
+            <field name="model">res.users</field>
+            <field name="inherit_id" ref="base.view_users_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='child_ids']" position="replace">
+                </xpath>
+                <xpath expr="//label[@for='login']" position="replace">
+                    <label for="login" class="oe_edit_only" string="Username"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record id="view_evaluation_value_tree" model="ir.ui.view">
+            <field name="name">fs.evaluation_value.tree</field>
+            <field name="model">fs.evaluation_value</field>
+            <field name="arch" type="xml">
+                <tree string="Evaluation Values History" create="false" edit="false" delete="false">
+                    <field name="evaluation_id"/>
+                    <field name="create_date" string="Date Modified"/>
+                    <field name="value" string="New Value"/>
+                </tree>
+            </field>
+        </record>
+        <record id="view_evaluation_value_form" model="ir.ui.view">
+            <field name="name">fs.evaluation_value.form</field>
+            <field name="model">fs.evaluation_value</field>
+            <field name="arch" type="xml">
+                <form string="Evaluation Values">
+                    <sheet>
+                        <group>
+                            <field name="value"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="view_evaluation_value_search" model="ir.ui.view">
+            <field name="name">fs.evaluation_value.search</field>
+            <field name="model">fs.evaluation_value</field>
+            <field name="arch" type="xml">
+                <search string="Evaluation Values">
+                    <field name="value"/>
+                </search>
+            </field>
+        </record>
+        <record model="ir.actions.act_window" id="act_open_evaluation_values_view">
+            <field name="name">Evaluation Values History</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">fs.evaluation_value</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree</field>
+            <field name="search_view_id" ref="view_evaluation_value_search" />
+        </record>
+
+        <act_window 
+            id="act_view_evaluation_values"
+            name="Evaluation Values"
+            view_mode='form'
+            view_id='view_evaluation_value_form'
+            domain="[('evaluation_id','=', active_id)]"
+            context="{'default_evaluation_id': active_id}"
+            src_model="fs.evaluation"
+            res_model="fs.evaluation_value"/>
+
+        <record id="view_evaluation_form" model="ir.ui.view">
+            <field name="name">fs.evaluation.form</field>
+            <field name="model">fs.evaluation</field>
+            <field name="arch" type="xml">
+                <form string="Evaluation">
+                    <sheet>
+                        <field name="icon" widget="image"  class="oe_left oe_avatar"/>
+                        <div class="oe_button_box" name="button_box">
+                            <button class="oe_stat_button" string="Set Value" type="action" name="%(act_view_evaluation_values)d" icon="fa-check"/>
+                        </div>
+                        <group>
+                            <field name="name"/>
+                            <field name="value"/>
+                            <field name="description"/>
+                            <field name="evaluation_color"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+
+        <menuitem id="menu_op_evaluation_value_sub" name="Evaluation Values History" parent="menu_op_school_config_evaluation" action="act_open_evaluation_values_view" groups="openeducat_core.group_op_back_office,openeducat_core.group_op_back_office_admin"/>
+    </data>
+</odoo>

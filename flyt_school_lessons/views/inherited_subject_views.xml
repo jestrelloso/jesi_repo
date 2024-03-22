@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record id="view_subject_tree" model="ir.ui.view">
+            <field name="name">op.subject.tree</field>
+            <field name="model">op.subject</field>
+            <field name="priority" eval="8" />
+            <field name="inherit_id" ref="openeducat_core.view_op_subject_tree"/>
+            <field name="arch" type="xml">
+                <tree string="Subject">
+                    <field name="description" />
+                </tree>
+                <xpath expr="//field[@name='type']" position="replace"></xpath>
+                <xpath expr="//field[@name='subject_type']" position="replace"></xpath>
+                <xpath expr="//field[@name='grade_weightage']" position="replace"></xpath>
+            </field>
+        </record>
+        <record model="ir.actions.act_window" id="act_open_class_subject_view">
+            <field name="name">Classes</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">fs.class</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="context">{'search_default_subject_id': active_id}</field>
+        </record>
+
+         <record model="ir.ui.view" id="survey_tree2">
+            <field name="name">Tree view for survey</field>
+            <field name="model">survey.survey</field>
+            <field name="arch" type="xml">
+                <tree string="Survey">
+                    <field name="title" />
+                    <field name="college_id" />
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_subject_form" model="ir.ui.view">
+            <field name="name">op.subject.form</field>
+            <field name="model">op.subject</field>
+            <field name="priority" eval="8" />
+            <field name="inherit_id" ref="openeducat_core.view_op_subject_form"/>
+            <field name="arch" type="xml">
+                <field name="grade_weightage" position="after">
+                    <field name="description" />
+                </field>
+                <xpath expr="/form/sheet/group" position="before">
+                    <div class="oe_button_box" name="button_box">
+                        <button type="action"
+                                class="oe_stat_button"
+                                name="%(act_open_class_subject_view)d"
+                                icon="fa-calendar">
+                                <field string="Classes" name="class_count" widget="statinfo"/>
+                        </button>
+                    </div>
+                </xpath>
+                <xpath expr="/form/sheet" position="inside">
+                    <notebook>
+                        <page name="lessons" string="Lessons">
+                            <field
+                                name="lessons"
+                                nolabel="1"
+                                domain="['|', ('subject_id', '=', False), ('subject_id', '=', active_id)]"
+                                widget="many2many"
+                                context="{'tree_view_ref': 'flyt_school_lessons.survey_tree2'}" />
+                        </page>
+                    </notebook>
+                </xpath>
+                <xpath expr="//field[@name='type']" position="replace"></xpath>
+                <xpath expr="//field[@name='subject_type']" position="replace"></xpath>
+                <xpath expr="//field[@name='grade_weightage']" position="replace"></xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

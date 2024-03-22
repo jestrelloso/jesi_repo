@@ -1,0 +1,455 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/css" href="evaluation.css"?> 
+
+<odoo>
+    <data>
+        <!-- Template for displaying evaluatee view -->
+        <template id="evaluation_evaluatee_view" name="Evaluation Results">
+            <t t-call="website.layout">
+                <div class="wrap">
+                    <div class="container">
+                        <div class="page-header">
+                            <div class="row">
+                                <div class="col-md-10">
+                                    <h1>
+                                        <span t-field='user_input_evaluation.lesson'/> Evaluation Results
+                                    </h1>
+                                </div>
+                                <t t-if="user_input_evaluation_type in ['peer_to_peer', 'peer_to_peer_teacher']">
+                                    <div class="col-md-2">
+                                        <div class="text-center">
+                                            <h4>Total</h4>
+                                        </div>
+                                        <div class="text-center table-responsive">
+                                            <table class="table">
+                                                <thead>
+                                                    <tr>
+                                                        <t t-foreach="evaluations_summary" t-as="evaluation">
+                                                            <th style="text-align: center"><img style="height: 36px" t-att-src="'/web/content/%s' % evaluation['evaluation'].attach_icon.id" t-att-alt="evaluation['evaluation'].name"/></th>
+                                                        </t>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <t t-foreach="evaluations_summary" t-as="evaluation">
+                                                            <td style="text-align: center"><h4><t t-esc="evaluation['total_count']"/></h4></td>
+                                                        </t>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </t>
+                            </div>
+                        </div>
+                        <form role="form" method="post" t-att-name="'%s' % (user_input_evaluation.id)" t-att-action="'/lesson/evaluations'">
+                            <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                            <input type="hidden" name="fsl_not_editable" t-att-value="fsl_not_editable"/>
+                            <!-- <t t-foreach='evaluations' t-as='evaluation'> -->
+                            <t t-foreach='user_input_line_evaluations' t-as='uile'>
+                                <!-- <t t-set="user_input_line" t-value="evaluation['user_input_line']"/> -->
+                                <t t-set="user_input_line" t-value="uile.user_input_line"/>
+                                <t t-set="question" t-value="user_input_line.question_id"/>
+                                <t t-set="question_type" t-value="question.question_type"/>
+                                <t t-set="answer_type" t-value="question.type"/>
+                                <t t-if="answer_type in ['textbox', 'free_text', 'date', 'numerical_box', 'audio_input', 'video_input', 'storyboard_type']">
+                                    <div class="row">
+                                        <h3>
+                                            <span t-field="question.question"/>
+                                        </h3>
+                                        <div>
+                                            <t t-if="question_type == 'text_single_image_content'">
+                                                <t t-call="flyt_school_lessons.text_single_image_content_question"/>
+                                            </t>
+                                            <t t-if="question_type == 'text_video_content'">
+                                                <t t-set="video_question_id" t-value="user_input_line.question_id.id"/>
+                                                <t t-set="decoded_video_file" t-value="'/web/content/%s' % user_input_line.question_id.attached_media_file.id"/>
+                                                <t t-call="flyt_school_lessons.text_video_content_question"/>
+                                            </t>
+                                            <t t-if="question_type == 'text_audio_content'">
+                                                <t t-set="decoded_audio_file" t-value="'/web/content/%s' % user_input_line.question_id.attached_media_file.id"/>
+                                                <t t-call="flyt_school_lessons.text_audio_content_question"/>
+                                            </t>
+                                        </div>
+                                        <h4>
+                                            <!-- Answers area -->
+                                            <div>
+                                                <t t-if="question.description"><div class="text-muted oe_no_empty" t-field='question.description'/></t>
+                                                <t t-if="answer_type == 'free_text'"><span t-raw='user_input_line.value_free_text'/></t>
+                                                <t t-if="answer_type == 'textbox'"><span t-field='user_input_line.value_text'/></t>
+                                                <t t-if="answer_type == 'numerical_box'"><span t-field='user_input_line.value_number'/></t>
+                                                <t t-if="answer_type == 'date'"><span t-field='user_input_line.value_date'/></t>
+                                                <t t-if="answer_type == 'audio_input'">
+                                                    <t t-set="audio_file" t-value="user_input_line.attached_media.local_url"/>
+                                                    <t t-call="flyt_school_lessons.audio_input_answer"/>
+                                                </t>
+                                                <t t-if="answer_type == 'video_input'">
+                                                    <t t-set="video_file" t-value="user_input_line.attached_media.local_url"/>
+                                                    <t t-set="video_question_id" t-value="question.id"/>
+                                                    <t t-set="is_reaction_video" t-value="user_input_line.question_id.is_reaction_video"/>
+                                                    <t t-set="attached_media" t-value="user_input_line.attached_media.id"/>
+                                                    <t t-call="flyt_school_lessons.video_input_answer"/>
+                                                </t>
+                                                <t t-if="question.type == 'storyboard_type'" >
+                                                    <t t-call="flyt_school_lessons.storyboard_question" />
+                                                </t>
+                                            </div>
+                                        </h4>
+                                        <div class='criteria'> 
+                                            <t t-if="user_input_evaluation_type in ['peer_to_peer', 'peer_to_peer_teacher']">
+                                                <t t-foreach="uile.criteria_evaluations" t-as="criteria_evaluation">
+                                                    <t t-set="evaluator_evaluation_id" t-value="criteria_evaluation.evaluator_evaluation.id"/>
+                                                    <t t-foreach='user_evaluation_criteria' t-as='criteria'>
+                                                        <t t-raw='criteria.criteria'/>
+                                                        <div class="evaluation-view-radio-group text-center" t-att-data-eval_answers="evaluator_evaluation_id">
+                                                            <t t-foreach="eval_icons" t-as="eval_icon">   
+                                                                <label class="radio-inline" disabled="True">                                                          
+                                                                    <t t-if="uile.evaluator_evaluation.id == eval_icon.id">
+                                                                        <input t-att-checked="'checked'" type="radio" t-att-name="'eval_icon_%s_%s' % (uile.id, criteria.id)" t-att-value="eval_icon.id" autocomplete="off" disabled="True"/>
+                                                                    </t>
+                                                                    <t t-else="">
+                                                                        <input type="radio" t-att-name="'eval_icon_%s_%s' % (uile.id, criteria.id)" t-att-value="eval_icon.id" autocomplete="off" disabled="True"/>
+                                                                    </t>
+                                                                    <img t-attf-name="eval_icon_{{ uile.id }}_{{ criteria.id }}_{{ eval_icon.id }}"                                                           
+                                                                        style="height: 36px" 
+                                                                        t-att-src="'/web/content/%s' % eval_icon.attach_icon.id" 
+                                                                        t-att-alt="eval_icon.name"
+                                                                        t-att-data-hover_color="eval_icon.evaluation_color"
+                                                                        t-att-data-evaluation_name="eval_icon.name"
+                                                                        t-att-data-evaluation_description="eval_icon.description"
+                                                                        t-att-eval_id="eval_icon.id"
+                                                                        data-toggle="tooltip"
+                                                                        disabled="True" />
+                                                                </label>
+                                                            </t>
+                                                            <span t-attf-name="evaluation_criteria_title_{{ uile.id }}_{{ criteria.id }}"/>
+                                                        </div>
+                                                    </t>
+                                                </t>
+                                            </t>
+                                        </div>
+                                    </div>
+                                    <hr/>
+                                </t>
+                                <t t-else="">
+                                    <!-- TODO for System Generated + Peer-to-peer type of evaluation, to display system generated scores on questions -->
+                                </t>
+                            </t>
+                            <t t-if="user_input_evaluation_type in ['teacher', 'peer_to_peer_teacher']">
+                                <div class="text-right">
+                                    <t t-if="user_input_evaluation_type == 'teacher'">
+                                        <label name="label-for-score">Score: </label>
+                                        <label>
+                                            <input type="number" step=".01" t-att-name="'score-for-%s' % (user_input_evaluation.id)" t-att-value="user_input_evaluation.score" t-att-disabled="'disabled'"/>
+                                        </label><br/>
+                                    </t>
+                                    <t t-if="user_input_evaluation.remarks">
+                                        <label name="label-for-remarks">Remarks: </label><br/>
+                                        <label>
+                                            <span t-raw='user_input_evaluation.remarks'/>
+                                        </label>
+                                    </t>
+                                </div>
+                            </t>
+                            <div class="text-center mt16 mb16">
+                                <t t-if="user.id">
+                                    <a class="btn btn-primary" t-att-href="'/web#id=%s&amp;view_type=form&amp;model=op.student' % (user.id)">Go Back to Profile of <span t-raw='user.last_name'/></a>
+                                </t>
+                                <t t-else="">
+                                    <button type="submit" class="btn btn-primary">Go Back to Profile</button>
+                                </t>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </t>
+        </template>
+
+        <!-- Template for displaying evaluation view -->
+        <template id="evaluation_view" name="Evaluate">
+            <t t-call="website.layout">
+                <div class="wrap">
+                    <div class="container">
+                        <div class="page-header">
+                            <t t-set="cur_page" t-value="page_nr + 1" />
+                            <p class="pull-right">Page <span t-raw='cur_page'/> of <span t-raw="max_page"/></p>
+                           <!--  <h1 t-field='page.title' />
+                            <div t-field='page.description' class="oe_no_empty"/> -->
+                            <h1>
+                                <span t-field='user_input_evaluation.lesson'/>
+                            </h1>
+                            <!-- <h4>
+                                Evaluatee: <span t-field='user_input_evaluation.evaluatee'/>
+                            </h4> -->
+                        </div>
+                        <form role="form" 
+                            method="post" 
+                            t-att-name="'%s' % (user_input_evaluation.id)"
+                            t-att-action="'/lesson/evaluate/%s/save' % (slug(user_input_evaluation))" 
+                            >
+                            <input type="hidden" name="page_id" t-att-value="page.id" />
+                            <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                            <input type="hidden" name="fsl_not_editable" t-att-value="fsl_not_editable"/>
+                            <input type="hidden" name="user_input_evaluation_type" t-att-value="user_input_evaluation_type"/>
+                            <t t-set="evaluated" t-value="user_input_evaluation.status"/>
+                            <t t-foreach='user_input_line_evaluations' t-as='uile'>
+                                <t t-set="user_input_line" t-value="uile.user_input_line"/>
+                                <t t-set="question" t-value="user_input_line.question_id"/>
+                                <t t-set="question_type" t-value="question.question_type"/>
+                                <t t-set="answer_type" t-value="question.type"/>
+                                <t t-set="prefix" t-value="'%s' % (uile.id)" />
+                                <t t-if="answer_type in ['textbox', 'free_text', 'date', 'numerical_box', 'audio_input', 'video_input', 'storyboard_type']">
+                                    <div class="row">
+                                        <h3>
+                                            <span t-field='question.question'/>
+                                        </h3>
+                                        <div>
+                                            <t t-if="question_type == 'text_single_image_content'">
+                                                <t t-call="flyt_school_lessons.text_single_image_content_question"/>
+                                            </t>
+                                            <t t-if="question_type == 'text_video_content'">
+                                                <t t-set="video_question_id" t-value="user_input_line.question_id.id"/>
+                                                <t t-set="decoded_video_file" t-value="'/web/content/%s' % user_input_line.question_id.attached_media_file.id"/>
+                                                <t t-call="flyt_school_lessons.text_video_content_question"/>
+                                            </t>
+                                            <t t-if="question_type == 'text_audio_content'">
+                                                <t t-set="decoded_audio_file" t-value="'/web/content/%s' % user_input_line.question_id.attached_media_file.id"/>
+                                                <t t-call="flyt_school_lessons.text_audio_content_question"/>
+                                            </t>
+                                        </div>
+                                        <h4>
+                                            <!-- Answers area -->
+                                            <div>
+                                                <t t-if="question.description"><div class="text-muted oe_no_empty" t-field='question.description'/></t>
+                                                <t t-if="answer_type == 'free_text'"><span t-raw='user_input_line.value_free_text'/></t>
+                                                <t t-if="answer_type == 'textbox'"><span t-field='user_input_line.value_text'/></t>
+                                                <t t-if="answer_type == 'numerical_box'"><span t-field='user_input_line.value_number'/></t>
+                                                <t t-if="answer_type == 'date'"><span t-field='user_input_line.value_date'/></t>
+                                                <t t-if="answer_type == 'audio_input'">
+                                                    <t t-set="audio_file" t-value="user_input_line.attached_media.local_url"/>
+                                                    <t t-call="flyt_school_lessons.audio_input_answer"/>
+                                                </t>
+                                                <t t-if="answer_type == 'video_input'">
+                                                    <t t-set="video_file" t-value="user_input_line.attached_media.local_url"/>
+                                                    <t t-set="video_question_id" t-value="question.id"/>
+                                                    <t t-set="is_reaction_video" t-value="user_input_line.question_id.is_reaction_video"/>
+                                                    <t t-set="attached_media" t-value="user_input_line.attached_media.id"/>
+                                                    <t t-call="flyt_school_lessons.video_input_answer"/>
+                                                </t>
+                                                 <t t-if="question.type == 'storyboard_type'" >
+                                                    <t t-call="flyt_school_lessons.storyboard_question" />
+                                                </t>
+                                            </div>
+                                        </h4>
+                                        <div class='criteria'> 
+                                            <t t-foreach='user_evaluation_criteria' t-as='criteria'>
+                                                <t t-raw='criteria.criteria'/>
+                                                <div class="evaluation-radio-group text-center">
+                                                    <t t-if="evaluated == 'evaluated'">
+                                                        <t t-if="user_input_evaluation_type in ['peer_to_peer', 'peer_to_peer_teacher']">
+                                                            <div class="eval_criteria">
+                                                                <t t-foreach="evaluations" t-as="evaluation">   
+                                                                    <label class="radio-inline">                                                          
+                                                                        <t t-if="uile.evaluator_evaluation.id == evaluation.id">
+                                                                                <input t-att-checked="'checked'" type="radio" t-att-name="'eval_icon_%s_%s' % (uile.id, criteria.id)" t-att-value="evaluation.id" autocomplete="off"/>
+                                                                        </t>
+                                                                        <t t-else="">
+                                                                            <input type="radio" t-att-name="'eval_icon_%s_%s' % (uile.id, criteria.id)" t-att-value="evaluation.id" autocomplete="off"/>
+                                                                        </t>
+                                                                        <img t-attf-name="eval_icon_{{ uile.id }}_{{ criteria.id }}_{{ evaluation.id }}"
+                                                                            style="height: 36px" 
+                                                                            t-att-src="'/web/content/%s' % evaluation.attach_icon.id" 
+                                                                            t-att-alt="evaluation.name"
+                                                                            t-att-data-hover_color="evaluation.evaluation_color"
+                                                                            t-att-data-evaluation_name="evaluation.name"
+                                                                            t-att-data-evaluation_description="evaluation.description"
+                                                                            data-toggle="tooltip"/>
+                                                                    </label>   
+                                                                </t>
+                                                                <span t-attf-name="evaluation_criteria_title_{{ uile.id }}_{{ criteria.id }}"/>
+                                                            </div> 
+                                                        </t>
+                                                    </t>
+                                                    <t t-elif="evaluated == 'draft'">
+                                                        <t t-if="user_input_evaluation_type in ['peer_to_peer', 'peer_to_peer_teacher']">
+                                                            <div class="eval_criteria">
+                                                                <t t-foreach="evaluations" t-as="evaluation">   
+                                                                    <label class="radio-inline">                                                          
+                                                                        <t t-if="uile.evaluator_evaluation.id == evaluation.id">
+                                                                                <input t-att-checked="'checked'" type="radio" t-att-name="'eval_icon_%s_%s' % (uile.id, criteria.id)" t-att-value="evaluation.id" autocomplete="off"/>
+                                                                        </t>
+                                                                        <t t-else="">
+                                                                            <input type="radio" t-att-name="'eval_icon_%s_%s' % (uile.id, criteria.id)" t-att-value="evaluation.id" autocomplete="off"/>
+                                                                        </t>
+                                                                        <img t-attf-name="eval_icon_{{ uile.id }}_{{ criteria.id }}_{{ evaluation.id }}"
+                                                                            style="height: 36px" 
+                                                                            t-att-src="'/web/content/%s' % evaluation.attach_icon.id" 
+                                                                            t-att-alt="evaluation.name"
+                                                                            t-att-data-hover_color="evaluation.evaluation_color"
+                                                                            t-att-data-evaluation_name="evaluation.name"
+                                                                            t-att-data-evaluation_description="evaluation.description"
+                                                                            data-toggle="tooltip"/>
+                                                                    </label>   
+                                                                </t>
+                                                                <span t-attf-name="evaluation_criteria_title_{{ uile.id }}_{{ criteria.id }}"/>
+                                                            </div>                                                      
+                                                        </t>
+                                                    </t>
+                                                </div>
+                                            </t>
+                                        </div>
+                                        
+                                    </div>
+                                    <hr/>
+                                </t>
+                                <t t-else="">
+                                    <input type="hidden" t-att-name="'evaluation-for-%s' % (prefix)" t-att-value="None"/>
+                                </t>
+                            </t>
+                            <t t-if="evaluated == 'evaluated'">
+                                <t t-if="user_input_evaluation_type in ['teacher', 'peer_to_peer_teacher']">
+                                    <div class="text-right">
+                                        <t t-if="user_input_evaluation_type == 'teacher'">
+                                            <label name="label-for-score">Score: </label>
+                                            <label>
+                                                <input type="number" step=".01" t-att-name="'score-for-%s' % (user_input_evaluation.id)" t-att-value="user_input_evaluation.score" t-att-disabled="'disabled'"/>
+                                            </label><br/>
+                                        </t>
+                                        <t t-if="remarks_visibilty">
+                                            <t t-if="user_input_evaluation.remarks">
+                                                <label name="label-for-remarks">Remarks: </label><br/>
+                                                <label>
+                                                    <span t-raw='user_input_evaluation.remarks'/>
+                                                </label>
+                                            </t>
+                                        </t>
+                                    </div>
+                                </t>
+                            </t>
+                            <t t-if="evaluated == 'draft'">
+                                <t t-if="user_input_evaluation_type in ['teacher', 'peer_to_peer_teacher']">
+                                    <div class="text-right">
+                                        <t t-if="user_input_evaluation_type == 'teacher'">
+                                            <label name="label-for-score">Score: </label>
+                                            <label>
+                                                <input type="number" step=".01" t-att-name="'score-for-%s' % (user_input_evaluation.id)" t-att-value="user_input_evaluation.score"/>
+                                            </label><br/>
+                                        </t>
+                                        <t t-if="remarks_visibilty">
+                                            <label name="label-for-remarks" id="label-for-remarks">Remarks: </label><br/>
+                                            <label>
+                                                <textarea class="form-control html_field remarks" t-att-name="'remarks-for-%s' % (user_input_evaluation.id)" t-att-value="user_input_evaluation.remarks"/>
+                                            </label>
+                                        </t>
+                                    </div>
+                                </t>
+                            </t>
+                            <div class="text-center mt16 mb16">
+                                <t t-if="evaluated == 'evaluated'">
+                                    <button type="submit" class="btn btn-primary" name="submit_evaluations_button" value="back_to_evaluations">Back to Lessons to Evaluate</button>
+                                </t>
+                                <t t-elif="evaluated == 'draft'">
+                                    <button t-if="page_nr > 0" type="submit" class="btn btn-default" name="submit_evaluations_button" value="previous">Previous page</button>
+                                    <t t-if="user_input_evaluation_type == 'peer_to_peer' and cur_page == max_page">
+                                        <button type="submit" class="btn btn-primary" name="submit_evaluations_button" value="for_saving">Submit Evaluation</button>
+                                    </t>
+                                    <t t-elif="user_input_evaluation_type in ['teacher', 'peer_to_peer_teacher'] and cur_page == max_page">
+                                        <t t-if="remarks_visibilty">
+                                            <button type="submit" class="btn btn-primary" name="submit_evaluations_button" value="for_draft">Submit as Draft</button>
+                                            <button type="submit" class="btn btn-primary" onclick="return confirm('Are you sure you want to finish the Evaluation?')"  name="submit_evaluations_button" value="for_saving">Submit as Final Evaluation</button>
+                                        </t>
+                                        <t t-else="">
+                                            <button type="submit" class="btn btn-primary" onclick="return confirm('Are you sure you want to finish the Evaluation?')" name="submit_evaluations_button" value="for_saving">Submit Evaluation</button>
+                                        </t>
+                                    </t>
+                                    <t t-else="">
+                                        <button type="submit" class="btn btn-primary" name="submit_evaluations_button" value="next_page">Next page</button>
+                                    </t>
+                                </t>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </t>
+        </template>
+
+        <!-- View for displaying success message to evaluation -->
+        <template id="evaluation_submitted_view" name="Evaluation Submitted">
+            <t t-call="website.layout">
+                <div class="wrap">
+                    <div class="container">
+                        <div class="page-header">
+                            <h3>
+                                Your <span t-esc='user_input_evaluation.lesson'/> evaluation has been saved.
+                            </h3>
+                            <h5>
+                                <form role="form" method="post" t-att-name="'%s' % (user_input_evaluation.id)" t-att-action="'/lesson/evaluate'">
+                                    <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                                    <button type="submit" class="btn btn-primary">Back to Lessons to Evaluate</button>
+                                </form>
+                            </h5>
+                        </div>
+                    </div>
+                </div>
+            </t>
+        </template>
+
+        <!-- Question type is `text_single_image_content` -->
+        <template id="text_single_image_content_question">
+            <div t-field="user_input_line.question_id.image_file" t-field-options='{"widget": "image"}'/>
+        </template>
+
+        <!-- Question type is `text_video_content` -->
+        <template id="text_video_content_question">
+            <div class="container" t-att-video-question-id="video_question_id">
+                <div class="row">
+                    <div class="col-md-12 text-center">
+                        <video preload="auto" t-att-id="'video-question-%s' % prefix" style="background-color: #1a1a1a; height: 480px;" controls="controls" t-att-src="decoded_video_file" controlsList="nodownload"/>
+                    </div>
+                </div>
+            </div>
+        </template>
+
+        <!-- Question type is `text_audio_content` -->
+        <template id="text_audio_content_question">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <audio preload="auto" t-att-id="'audio-question-%s' % prefix" controls="controls" style="width: 100%;" t-att-src="decoded_audio_file" controlsList="nodownload"/>
+                    </div>
+                </div>
+            </div>
+        </template>
+
+        <!-- Answer type is `video_input` -->
+        <template id="video_input_answer">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12 text-center">
+                        <video controlsList="nodownload" t-att-media-tag="'media-answer-view'" preload="auto" t-att-video-question-id="video_question_id" t-att-attached-media="attached_media" t-att-is-reaction-video="is_reaction_video" style="background-color: #1a1a1a; height: 480px;" t-att-controls="''">
+                            <source t-att-src="video_file" type="video/webm"/>
+                        </video>
+                    </div>
+                </div>
+                <div class="row message-status-panel">
+                    <div class="col-md-12 text-center">
+                        <span class="center-vertical" t-att-id="'video-attachment-%s' % attached_media" t-att-hidden="'hidden'">Reaction video overlay in progress, video will automatically load once it is done processing.</span>
+                    </div>
+                </div>
+            </div>
+        </template>
+
+        <!-- Answer type is `audio_input` -->
+        <template id="audio_input_answer">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <audio controlsList="nodownload" t-att-media-tag="'media-answer-view'" preload="auto" t-att-controls="''" style="width: 100%;">
+                            <source t-att-src="audio_file" type="audio/webm"/>
+                        </audio>
+                    </div>
+                </div>
+            </div>
+        </template>
+    </data>
+</odoo>

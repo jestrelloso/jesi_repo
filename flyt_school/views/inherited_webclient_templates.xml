@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <template id="login" inherit_id="web.login" name="Login">
+            <xpath expr="//label[@for='login']" position="replace">
+                <label for="login" class="control-label">Username</label>
+            </xpath>
+        </template>
+    </data>
+</odoo>

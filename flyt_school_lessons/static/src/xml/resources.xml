@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <template id="layout" inherit_id="web.layout">
+            <xpath expr="//head" position="inside">
+                <link rel="stylesheet" href="/flyt_school_lessons/static/src/css/flyt_school_lessons.css"/>
+                <link rel="stylesheet" href="/flyt_school_lessons/static/src/js/tinymce/skins/lightgray/skin.min.css" />
+                <link rel="stylesheet" href="/flyt_school_lessons/static/src/js/tinymce/skins/lightgray/content.min.css" />
+                <link rel="stylesheet" href="/flyt_school_lessons/static/src/css/answer_recording.css"/>
+                <link rel="stylesheet" href="/flyt_school_lessons/static/src/css/evaluation.css"/>
+                <script type="text/javascript" src="/flyt_school_lessons/static/src/js/answer_recording.js"/>
+                <script type="text/javascript" src="/flyt_school_lessons/static/src/js/evaluation_onclick.js"/>                
+                <!-- <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script> -->
+                <link rel="stylesheet" href="/flyt_school_lessons/static/src/lib/dragula.css"/>
+                <script src="/flyt_school_lessons/static/src/lib/dragula.js" type="text/javascript"/>
+                
+            </xpath>
+        </template>
+        <template id="assets_backend" inherit_id="web.assets_backend">
+            <xpath expr="." position="inside">
+                <script type="text/javascript" src="/flyt_school_lessons/static/src/js/binary_field_extension.js"/>
+                <script type="text/javascript" src="/flyt_school_lessons/static/src/js/field_video_widget.js"/>                
+                <script type="text/javascript" src="/flyt_school_lessons/static/src/js/action_menu.js"/>
+                <script type="text/javascript" src="/flyt_school_lessons/static/src/js/inherited_abstract_webclient.js"/>
+                <link rel="stylesheet" href="/flyt_school_lessons/static/src/css/backend_flyt_school_lessons.css"/>
+            </xpath>
+        </template>
+        <template id="assets_frontend" inherit_id="web.assets_frontend">
+            <xpath expr="." position="inside">
+                <link rel="stylesheet" href="/flyt_school_lessons/static/src/css/website.css"/>
+                <script type="text/javascript" src="/flyt_school_lessons/static/src/js/tinymce/tinymce.min.js"></script>
+                <script type="text/javascript" src="/flyt_school_lessons/static/src/js/tinymce/themes/modern/theme.min.js"></script>
+                <script type="text/javascript" src="/flyt_school_lessons/static/src/js/tinymce/plugins/advlist/plugin.min.js"></script>
+                <script type="text/javascript" src="/flyt_school_lessons/static/src/js/tinymce/plugins/lists/plugin.min.js"></script>
+                <script type="text/javascript" src="/flyt_school_lessons/static/src/js/tinymce/plugins/wordcount/plugin.min.js"></script>
+                <script type="text/javascript" src="/flyt_school_lessons/static/src/js/tinymce/plugins/table/plugin.min.js"></script>
+                <script type="text/javascript" src="/flyt_school_lessons/static/src/js/html_field.js"></script>
+            </xpath>
+        </template>
+    </data>
+</odoo>

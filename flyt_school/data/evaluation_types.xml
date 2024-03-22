@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<data noupdate="1">
+		<record id="evaluation_0" model="fs.evaluation">
+			<field name="name">JESI Very Unsatisfactory</field>
+			<field name="icon" type="base64" file="flyt_school/static/images/jesi_very_unsatisfactory.png" />
+		</record>
+		<record id="evaluation_1" model="fs.evaluation">
+			<field name="name">JESI Unsatisfactory</field>
+			<field name="icon" type="base64" file="flyt_school/static/images/jesi_unsatisfactory.png" />
+		</record>
+		<record id="evaluation_2" model="fs.evaluation">
+			<field name="name">JESI Fairly Satisfactory</field>
+			<field name="icon" type="base64" file="flyt_school/static/images/jesi_fairly_satisfactory.png" />
+		</record>
+		<record id="evaluation_3" model="fs.evaluation">
+			<field name="name">JESI Satisfactory</field>
+			<field name="icon" type="base64" file="flyt_school/static/images/jesi_satisfactory.png" />
+		</record>
+		<record id="evaluation_4" model="fs.evaluation">
+			<field name="name">JESI Very Satisfactory</field>
+			<field name="icon" type="base64" file="flyt_school/static/images/jesi_very_satisfactory.png" />
+		</record>
+		<record id="evaluation_value_0" model="fs.evaluation_value">
+			<field name="evaluation_id" ref="flyt_school.evaluation_0" />
+			<field name="value">1.0</field>
+		</record>
+		<record id="evaluation_value_1" model="fs.evaluation_value">
+			<field name="evaluation_id" ref="flyt_school.evaluation_1" />
+			<field name="value">2.0</field>
+		</record>
+		<record id="evaluation_value_2" model="fs.evaluation_value">
+			<field name="evaluation_id" ref="flyt_school.evaluation_2" />
+			<field name="value">3.0</field>
+		</record>
+		<record id="evaluation_value_3" model="fs.evaluation_value">
+			<field name="evaluation_id" ref="flyt_school.evaluation_3" />
+			<field name="value">4.0</field>
+		</record>
+		<record id="evaluation_value_4" model="fs.evaluation_value">
+			<field name="evaluation_id" ref="flyt_school.evaluation_4" />
+			<field name="value">5.0</field>
+		</record>
+		<record id="flyt_school.evaluation_0" model="fs.evaluation">
+			<field name="value_ids" eval="[(4, ref('flyt_school.evaluation_value_0'))]" />
+		</record>
+		<record id="flyt_school.evaluation_1" model="fs.evaluation">
+			<field name="value_ids" eval="[(4, ref('flyt_school.evaluation_value_1'))]" />
+		</record>
+		<record id="flyt_school.evaluation_2" model="fs.evaluation">
+			<field name="value_ids" eval="[(4, ref('flyt_school.evaluation_value_2'))]" />
+		</record>
+		<record id="flyt_school.evaluation_3" model="fs.evaluation">
+			<field name="value_ids" eval="[(4, ref('flyt_school.evaluation_value_3'))]" />
+		</record>
+		<record id="flyt_school.evaluation_4" model="fs.evaluation">
+			<field name="value_ids" eval="[(4, ref('flyt_school.evaluation_value_4'))]" />
+		</record>
+	</data>
+</odoo>

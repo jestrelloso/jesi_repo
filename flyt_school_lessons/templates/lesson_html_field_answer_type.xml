@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <template id="html_text" name="Html text box">
+            <textarea class="form-control html_field" t-att-name="prefix"/>
+        </template>
+        <template id="iframe_html_display" name="Display Html">
+            <iframe class="form-control iframe_html_display" t-att-name="prefix"/>
+        </template>
+    </data>
+</odoo>

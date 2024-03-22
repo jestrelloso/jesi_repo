@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record id="view_department_tree" model="ir.ui.view">
+            <field name="name">fs.department.tree</field>
+            <field name="model">fs.department</field>
+            <field name="arch" type="xml">
+                <tree string="Department">
+                    <field name="code" />
+                    <field name="name" />
+                    <field name="college_id" />
+                    <field name="student_ids" />
+                </tree>
+            </field>
+        </record>
+        <record id="view_department_form" model="ir.ui.view">
+            <field name="name">fs.department.form</field>
+            <field name="model">fs.department</field>
+            <field name="arch" type="xml">
+                <form string="Department">
+                    <sheet>
+                        <group col="4">
+                            <field name="name" required="1"/>
+                            <field name="college_id" required="1"/>
+                            <field name="code" required="1"/>
+                        </group>
+                        <group col="1">
+                            <label string="Students"/>
+                            <field name="student_ids"
+                                nolabel="1"
+                                widget="many2many"
+                                context="{'default_department_id': active_id}"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="view_department_search" model="ir.ui.view">
+            <field name="name">fs.department.search</field>
+            <field name="model">fs.department</field>
+            <field name="arch" type="xml">
+                <search string="Department">
+                    <field name="name" />
+                    <field name="code" />
+                    <field name="student_ids" />
+                </search>
+            </field>
+        </record>
+        <record model="ir.actions.act_window" id="act_open_department_view">
+            <field name="name">Departments</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">fs.department</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="search_view_id" ref="view_department_search" />
+        </record>
+
+        <menuitem id="menu_op_school_config_department" name="Department Management" parent="openeducat_core.menu_op_school_config" sequence="3"/>
+
+        <menuitem id="menu_op_department_sub" name="Departments" parent="menu_op_school_config_department" action="act_open_department_view" groups="openeducat_core.group_op_back_office,openeducat_core.group_op_back_office_admin"/>
+    </data>
+</odoo>

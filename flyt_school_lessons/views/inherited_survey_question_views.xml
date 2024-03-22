@@ -1,0 +1,135 @@
+<odoo>
+    <data>
+         <record model="ir.ui.view" id="survey_question_form">
+            <field name="name">Form view for survey question</field>
+            <field name="model">survey.question</field>
+            <field name="inherit_id" ref="survey.survey_question_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='labels_ids']" position="replace">
+                    <field name="labels_ids" string="Type of answers" context="{'default_question_id': active_id}" attrs="{'invisible': [('type', 'not in', ['textbox', 'simple_choice', 'multiple_choice', 'matrix'])]}">
+                        <tree editable="bottom">
+                            <field name="sequence" widget="handle"/>
+                            <field name="value" string="Choices"/>
+                            <field name="quizz_mark" groups="base.group_no_one"/>
+                        </tree>
+                    </field>
+                </xpath>
+                <xpath expr="//notebook/page[2]/group" position="before">
+                    <group colspan="2" col="4">
+                        <field name="add_to_profile" />
+                        <field name="enable_html_field" attrs="{'invisible': [('type', '!=', 'free_text')]}"/>
+                        <field name="student_fields" attrs="{'invisible': [('add_to_profile', '=', False)], 'required':[('add_to_profile','=',True)] }" />
+                        <field name="word_count" attrs="{'invisible': [('type', '!=', 'free_text')]}"/>
+                        <field name="selection_values_html" attrs="{'invisible': [('add_to_profile', '=', False)], 'required':[('add_to_profile','=',True)] }" />
+                        <field name="recording_answer_time_limit" attrs="{'invisible': [('type', 'not in', ('audio_input', 'video_input'))]}" />
+                        <field name="is_reaction_video" attrs="{'invisible': ['|', ('type', '!=', 'video_input'), ('question_type', '!=', 'text_video_content')]}" />
+                    </group>
+                </xpath>
+
+                <xpath expr="//div[hasclass('oe_title')]" position="after">
+                    <group colspan="2" col="4">
+                        <field name="question_type" widget="dropdown"  attrs="{'invisible': [('type', '=', 'storyboard_type')]}" />
+                        <field name="image_file" widget="image" attrs="{'invisible': [('question_type', '!=', 'text_single_image_content')], 'required': [('question_type', '=', 'text_single_image_content')]}"/>
+                        <field name="video_file" attrs="{'invisible': [('question_type', '!=', 'text_video_content')], 'required': [('question_type', '=', 'text_video_content')]}"/>
+                        <field name="audio_file" attrs="{'invisible': [('question_type', '!=', 'text_audio_content')], 'required': [('question_type', '=', 'text_audio_content')]}"/>
+                    </group>
+                </xpath>
+                <xpath expr="//div[hasclass('col-md-6', 'col-md-offset-3', 'o_preview_questions')]" position="inside">
+                    <!-- Audio input -->
+                    <div attrs="{'invisible': [('type', '!=', 'audio_input')]}">
+                        <i class="fa fa-microphone fa-4x"/>
+                    </div>
+                    <!-- Video input -->
+                    <div attrs="{'invisible': [('type', '!=', 'video_input')]}">
+                        <i class="fa fa-video-camera fa-4x"/>
+                    </div>
+                    <!-- Storyboard -->
+                    <div attrs="{'invisible': [('type', '!=', 'storyboard_type')]}">
+                        <i class="fa fa-image fa-4x"/>
+                    </div>
+                </xpath>
+                 <xpath expr="//notebook" position="before">
+                    <div attrs="{'invisible': [
+                        ('type', '!=', 'storyboard_type')
+                    ]}" >
+                        <button name="open_attachment_wizard"
+                            type="object"
+                            attrs="{'invisible': [('id', '=', False)]}"
+                            string="Add Image" />
+                        <button name="get_compute_images"
+                            type="object"
+                            attrs="{'invisible': [('id', '=', False)]}"
+                            string="Refresh image list" />
+                        <field name="story_images">
+                            <tree>
+                                <field name="datas_fname" />
+                                <field name="name" />
+                                <field name="create_date" />
+                                 <button name="unlink"
+                                    confirm="Are you sure you want to delete image?"
+                                    type="object"
+                                    string="Remove" />
+                            </tree>
+                        </field>
+                    </div>
+                </xpath>
+                 <field name="quizz_mark" position="attributes">
+                    <attribute name="groups"></attribute>
+                </field>
+            </field>
+        </record>
+        <record model="ir.ui.view" id="survey_user_input_form">
+            <field name="name">survey_user_input_form</field>
+            <field name="model">survey.user_input</field>
+            <field name="inherit_id" ref="survey.survey_user_input_form" />
+            <field name="arch" type="xml">
+                <field name="quizz_mark" position="attributes">
+                    <attribute name="groups"></attribute>
+                </field>
+                <field name="quizz_score" position="attributes">
+                    <attribute name="groups"></attribute>
+                </field>
+            </field>
+        </record>
+        <record model="ir.ui.view" id="survey_user_input_tree">
+            <field name="name">survey_user_input_tree</field>
+            <field name="model">survey.user_input</field>
+            <field name="inherit_id" ref="survey.survey_user_input_tree" />
+            <field name="arch" type="xml">
+                <field name="quizz_score" position="attributes">
+                    <attribute name="groups"></attribute>
+                </field>
+            </field>
+        </record>
+        <record model="ir.ui.view" id="survey_label_tree">
+            <field name="name">survey_label_tree</field>
+            <field name="model">survey.label</field>
+            <field name="inherit_id" ref="survey.survey_label_tree" />
+            <field name="arch" type="xml">
+                <field name="quizz_mark" position="attributes">
+                    <attribute name="groups"></attribute>
+                </field>
+            </field>
+        </record>
+        <record model="ir.ui.view" id="survey_user_input_line_form">
+            <field name="name">survey_user_input_line_form</field>
+            <field name="model">survey.user_input_line</field>
+            <field name="inherit_id" ref="survey.survey_user_input_line_form" />
+            <field name="arch" type="xml">
+                <field name="quizz_mark" position="attributes">
+                    <attribute name="groups"></attribute>
+                </field>
+            </field>
+        </record>
+        <record model="ir.ui.view" id="survey_response_line_tree">
+            <field name="name">survey_response_line_tree</field>
+            <field name="model">survey.user_input_line</field>
+            <field name="inherit_id" ref="survey.survey_response_line_tree" />
+            <field name="arch" type="xml">
+                <field name="quizz_mark" position="attributes">
+                    <attribute name="groups"></attribute>
+                </field>
+            </field>
+        </record>
+    </data>
+</odoo>

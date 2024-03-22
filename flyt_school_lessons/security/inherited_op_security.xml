@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="openeducat_core.group_op_back_office_admin" model="res.groups">
+            <field name="implied_ids" eval="[(6, 0, [ref('openeducat_core.group_op_back_office'), ref('survey.group_survey_manager'), ref('base.group_erp_manager'), ref('website.group_website_designer')])]"/>
+        </record>
+        <record id="openeducat_core.group_op_back_office" model="res.groups">
+            <field name="implied_ids" eval="[(6, 0, [ref('openeducat_core.group_op_faculty'), ref('survey.group_survey_user'), ref('base.group_partner_manager')])]"/>
+        </record>
+    </data>
+</odoo>

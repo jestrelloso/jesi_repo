@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record id="view_college_tree" model="ir.ui.view">
+            <field name="name">fs.college.tree</field>
+            <field name="model">fs.college</field>
+            <field name="arch" type="xml">
+                <tree string="College">
+                    <field name="name" />
+                    <field name="code" />
+                    <field name="department_ids" />
+                </tree>
+            </field>
+        </record>
+        <record id="view_college_form" model="ir.ui.view">
+            <field name="name">fs.college.form</field>
+            <field name="model">fs.college</field>
+            <field name="arch" type="xml">
+                <form string="College">
+                    <sheet>
+                        <group>
+                            <field name="name" required="1"/>
+                            <field name="code" required="1"/>
+                        </group>
+                        <group col="1">
+                            <label string="Departments"/>
+                            <field name="department_ids"
+                                nolabel="1"
+                                widget="many2many"
+                                context="{'default_college_id': active_id}"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="view_college_search" model="ir.ui.view">
+            <field name="name">fs.college.search</field>
+            <field name="model">fs.college</field>
+            <field name="arch" type="xml">
+                <search string="College">
+                    <field name="name" />
+                    <field name="code" />
+                    <field name="department_ids" />
+                </search>
+            </field>
+        </record>
+        <record model="ir.actions.act_window" id="act_open_college_view">
+            <field name="name">Colleges</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">fs.college</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="search_view_id" ref="view_college_search" />
+        </record>
+
+        <menuitem id="menu_op_school_config_college" name="College Management" parent="openeducat_core.menu_op_school_config" sequence="2"/>
+
+        <menuitem id="menu_op_college_sub" name="Colleges" parent="menu_op_school_config_college" action="act_open_college_view" groups="openeducat_core.group_op_back_office,openeducat_core.group_op_back_office_admin"/>
+    </data>
+</odoo>

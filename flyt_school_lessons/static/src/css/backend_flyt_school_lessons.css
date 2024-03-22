@@ -1,0 +1,18 @@
+.btn-primary, .oe_highlight {
+    background-color: #894520;
+}
+.btn-primary:hover, .oe_highlight:hover {
+    background-color: #a0603e;
+}
+a.oe_menu_leaf, .oe_secondary_menu_section, .o_web_client > .o_main .o_sub_menu .o_sub_menu_content .oe_secondary_menu_section {
+    color: #894520;
+}
+.fs-img {
+    background-color: white;
+    width: 100%;
+}
+
+img.fs-img {
+    margin-top: 0px !important;
+    margin-bottom: 14px !important;
+}

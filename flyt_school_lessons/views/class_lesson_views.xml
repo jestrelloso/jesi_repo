@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record id="view_class_lesson_tree" model="ir.ui.view">
+            <field name="name">fsl.class_lesson.tree</field>
+            <field name="model">fsl.class_lesson</field>
+            <field name="arch" type="xml">
+                <tree string="Class Lesson">
+                    <field name="class_id" />
+                    <field name="lesson_group_id" />
+                    <field name="lesson_id" />
+                    <field name="scheduled_date" />
+                </tree>
+            </field>
+        </record>
+        <record id="view_class_lesson_form" model="ir.ui.view">
+            <field name="name">fsl.class_lesson.form</field>
+            <field name="model">fsl.class_lesson</field>
+            <field name="priority" eval="1" />
+            <field name="arch" type="xml">
+                <form string="Class Lesson">
+                    <sheet>
+                        <group>
+                            <field name="class_id" />
+                            <field name="lesson_group_id" />
+                            <field name="lesson_id" />
+                            <field name="lesson_url" />
+                            <field name="scheduled_date" />
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="view_class_lesson_form_class" model="ir.ui.view">
+            <field name="name">fsl.class_lesson.form_class</field>
+            <field name="model">fsl.class_lesson</field>
+            <field name="arch" type="xml">
+                <form string="Class Lesson">
+                    <sheet>
+                        <group>
+                            <field name="class_id"
+                                invisible="1"
+                                readonly="1"/>
+                            <field name="lesson_group_id"
+                                options="{'no_create_edit':True}"
+                                readonly="1"
+                                groups="openeducat_core.group_op_back_office,openeducat_core.group_op_back_office_admin,openeducat_core.op_faculty"/>
+                            <field name="lesson_id"
+                                readonly="1"
+                                groups="openeducat_core.group_op_back_office,openeducat_core.group_op_back_office_admin,openeducat_core.op_faculty"/>
+                            <field name="lesson_url"
+                                readonly="1"
+                                attrs="{'invisible': [('lesson_url', '=', False)]}"/>
+                            <field name="scheduled_date" />
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="view_class_lesson_form_lesson" model="ir.ui.view">
+            <field name="name">fsl.class_lesson.form</field>
+            <field name="model">fsl.class_lesson</field>
+            <field name="arch" type="xml">
+                <form string="Class Lesson">
+                    <sheet>
+                        <group>
+                            <field name="class_id" groups="openeducat_core.group_op_back_office,openeducat_core.group_op_back_office_admin,openeducat_core.op_faculty"/>
+                            <field name="scheduled_date" />
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+    </data>
+</odoo>

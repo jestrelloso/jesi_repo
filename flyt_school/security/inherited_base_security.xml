@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<odoo>
+    <data>
+        <record model="res.groups" id="base.group_erp_manager">
+            <field name="name">Back Office Admin</field>
+        </record>
+        <record model="res.groups" id="base.group_system">
+            <field name="name">Superuser Admin</field>
+        </record>
+    </data>
+</odoo>
+

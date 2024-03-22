@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record model="ir.ui.view" id= "survey_page_form">
+            <field name="model">survey.page</field>
+            <field name="inherit_id" ref="survey.survey_page_form"/>
+            <field name="arch" type="xml">
+                <field name="question_ids" position="before">
+                    <group>
+                        <field name="shuffle" />
+                    </group>
+                </field>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id= "survey_tree">
+            <field name="name">Tree view for survey</field>
+            <field name="model">survey.survey</field>
+            <field name="inherit_id" ref="survey.survey_tree"/>
+            <field name="priority" eval="1" />
+            <field name="arch" type="xml">
+                <xpath expr="//tree" position="replace">
+                    <tree string="Survey">
+                        <field name="active" invisible="1"/>
+                        <field name="title" />
+                        <field name="subject_id" />
+                        <field name="college_id" />
+                        <field name="lesson_evaluation_type" />
+                    </tree>
+                </xpath>
+            </field>
+        </record>
+        <record model="ir.ui.view" id="survey_form">
+            <field name="name">Form view for survey</field>
+            <field name="model">survey.survey</field>
+            <field name="inherit_id" ref="survey.survey_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="/form/sheet/notebook" position="before">
+                    <div class="oe_title" style="width: 100%;">
+                        <label for="subject_id" class="oe_edit_only"/>
+                        <newline />
+                        <field name="subject_id" />
+                    </div>
+                    <div class="oe_title" style="width: 100%;">
+                        <label for="college_id" class="oe_edit_only"/>
+                        <newline />
+                        <field name="college_id" />
+                    </div>
+                    <div class="oe_title" style="width: 100%;">
+                        <label for="lesson_group_id" class="oe_edit_only"/>
+                        <newline />
+                        <field name="lesson_group_id" />
+                    </div>
+                </xpath>
+                <xpath expr="/form/sheet/notebook" position="inside">
+                    <page string="Key Point Indicator">
+                        <field name="kpi" />
+                    </page>
+                    <page string="Evaluation Criteria">
+                        <field name= "evaluation_criteria" nolabel="1">
+                            <tree string="Evaluation Criteria">
+                                <field name="criteria"/>
+                            </tree>
+                        </field>
+                    </page>
+                </xpath>
+                <!-- Added `lesson_evaluation_type` field for the lesson -->
+                <xpath expr="/form/sheet/notebook/page[2]/group/field[@name='auth_required']" position="after">
+                    <field name="evaluators_count" attrs="{'invisible':[('lesson_evaluation_type', 'in', ('None', 'system_generated', 'teacher'))]}"/>
+                    <field name="lesson_evaluation_type" widget="radio"/>
+                </xpath>
+                <xpath expr="/form/sheet/notebook/page[2]/group/field[@name='quizz_mode']" position="attributes">
+                    <attribute name="attrs">{'invisible': False, 'readonly': True}</attribute>
+                </xpath>
+                <xpath expr="//header/button" position="attributes">
+                    <attribute name="string">Design Lesson</attribute>
+                </xpath>
+                <xpath expr="//header/button[2]" position="attributes">
+                    <attribute name="string">Test Lesson</attribute>
+                </xpath>
+                <xpath expr="//header/button[3]" position="attributes">
+                    <attribute name="string">Print Lesson</attribute>
+                </xpath>
+                <field name="title" position="attributes">
+                    <attribute name="placeholder">Lesson Title</attribute>
+                </field>
+            </field>
+        </record>
+        <record model="ir.actions.act_window" id="survey.action_survey_form">
+            <field name="name">Surveys</field>
+            <field name="res_model">survey.survey</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,kanban,form</field>
+            <field name="context">{'group_by':'college_id'}</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">Click to add a lesson.</p>
+            </field>
+        </record>
+
+        <menuitem id="survey.menu_surveys" name="Lessons"/>
+        <menuitem id="survey.menu_survey_form" name="Lessons" parent="survey.menu_surveys"/>
+        <record model="ir.actions.act_window" id="survey.action_survey_form">
+            <field name="name">Lessons</field>
+        </record>
+    </data>
+</odoo>

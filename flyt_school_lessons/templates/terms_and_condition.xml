@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <template id="flyt_school_lessons.terms_and_condition" name="Terms and Condition">
+            <t t-call="web.html_container">
+                <head>
+                    <style type="text/css">
+                        .o_form_sheet {
+                            border: 1px solid #d9d7d7;
+                            box-shadow: 0 5px 20px -15px #000000;
+                            max-width: 90%;
+                            margin: auto;
+                        }
+                        .o_form_view .o_form_sheet_bg {
+                            background: none !important;
+                            background-color: #F9F9F9 !important;
+                            padding: 0px;
+                            border-bottom: 1px solid #ddd;
+                        }
+                        .o_view_manager_content{
+                            position: absolute;
+                            top: 0;
+                            left: 0;
+                            bottom: 0;
+                            right: 0;
+                            height: 100%;
+                        }
+                        .o_content {
+                            overflow: initial;
+                            flex: 1 1 auto;
+                            height: 100%;
+                            position: relative;
+                        }
+                    </style>
+                </head>
+                <div class="o_content">
+                    <form class="o_form_sheet_bg" role="form" method="post" action="/web/terms_and_condition" onsubmit="this.action = this.action + location.hash">
+                        <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()" />
+                        <div class="o_content">
+                             <div>
+                                 <t t-raw="terms_and_condition"/>
+                             </div>
+                        </div>
+                         <div class="col text-center">
+                             <button type="submit" class="btn btn-primary" style="margin: 0 auto;">I Agree</button>
+                         </div>
+                    </form>
+                </div>
+            </t>
+        </template>
+    </data>
+</odoo>

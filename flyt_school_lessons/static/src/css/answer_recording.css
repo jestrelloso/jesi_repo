@@ -1,0 +1,23 @@
+.video-view {
+    width: 640px;
+    height: 480px;
+}
+
+.recording-blink {
+    animation: blinker 0.5s cubic-bezier(.5, 0, 1, 1) infinite alternate;
+}
+
+.message-status-panel {
+    margin-bottom: 10px;
+    margin-top: 5px;
+}
+
+.center-vertical {
+    vertical-align: middle;
+    float: none;
+}
+
+@keyframes blinker {
+    from { opacity: 1; }
+    to { opacity: 0; }
+}

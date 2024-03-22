@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record id="view_evaluation_criteria_tree" model="ir.ui.view">
+            <field name="name">fs.evaluation.criteria.tree</field>
+            <field name="model">fs.evaluation_criteria</field>
+            <field name="arch" type="xml">
+                <tree string="Evaluation Criteria">
+                    <field name="criteria"/>
+                </tree>
+            </field>
+        </record>
+        <record id="view_evaluation_criteria_search" model="ir.ui.view">
+            <field name="name">fs.evaluation.criteria.search</field>
+            <field name="model">fs.evaluation_criteria</field>
+            <field name="arch" type="xml">
+                <search string="Evaluation Criteria">
+                    <field name="criteria"/>
+                </search>
+            </field>
+        </record>
+        <record id="act_open_evaluation_criteria_view" model="ir.actions.act_window">
+            <field name="name">Evaluation Criteria</field>
+            <field name="res_model">fs.evaluation_criteria</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="search_view_id" ref="view_evaluation_criteria_search" />
+        </record>
+
+        <menuitem id="menu_op_evaluation_criteria_sub" name="Evaluation Criteria" parent="menu_op_school_config_evaluation" action="act_open_evaluation_criteria_view" groups="openeducat_core.group_op_back_office,openeducat_core.group_op_back_office_admin"/>
+    </data>
+</odoo>

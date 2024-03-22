@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record model="ir.actions.act_window" id="act_open_class_faculty_view">
+            <field name="name">Classes</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">fs.class</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('faculty_id', '=', active_id)]</field>
+        </record>
+        <record id="view_op_faculty_form" model="ir.ui.view">
+            <field name="name">op.faculty.form</field>
+            <field name="model">op.faculty</field>
+            <field name="priority" eval="8" />
+            <field name="inherit_id" ref="openeducat_core.view_op_faculty_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//header" position="replace">
+                </xpath>
+                <xpath expr="/form/sheet/div" position="replace">
+                    <div class="oe_button_box" name="button_box" style="width:17%;">
+                        <button type="action"
+                                name="%(act_open_class_faculty_view)d"
+                                class="oe_stat_button"
+                                icon="fa-calendar">
+                                <field string="Classes" name="class_count" widget="statinfo"/>
+                        </button>
+                    </div>
+                    <div style="clear:both;">
+                            <h1>
+                                <table>
+                                <tr>
+                                    <td style="padding-right:10px"><field name="name" required="1" placeholder="First Name" /></td>
+                                    <td style="padding-right:10px"><field name="middle_name" placeholder="Middle Name" /></td>
+                                    <td style="padding-right:10px"><field name="last_name" placeholder="Last Name" /></td>
+                                    <td style="padding-right:10px"><field name="ext_name" placeholder="Ext" /></td>
+                                </tr>
+                                </table>
+                            </h1>
+                        </div>
+                </xpath>
+                <xpath expr="//sheet/group" position="replace">
+                </xpath>
+                <xpath expr="//notebook/page[1]/group" position="replace">
+                    <group col="4">
+                        <field name="account_id" placeholder="Faculty ID"/>
+                        <field name="birth_date" />
+                        <field name="gender" />
+                        <field name="phone" />
+                        <field name="mobile" />
+                        <field name="email" />
+                        <!-- <field name="blood_group" /> -->
+                        <field name="nationality" />
+                        <!-- <field name="visa_info" /> -->
+                        <!-- <field name="lang" /> -->
+                        <field name="emergency_contact" context="{'show_address': 1}"
+                            options='{"always_reload": True}' />
+                        <!-- <field name='emp_id' /> -->
+                    </group>
+                </xpath>
+                <xpath expr="//page[@name='subjects']" position="replace">
+                    <page name="subjects" string="Subjects">
+                        <field name="subject_faculty_ids" colspan="4" nolabel="1"/>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+
+         <!-- Faculty Kanban -->
+        <record id="kanban_view_faculty" model="ir.ui.view">
+            <field name="name">Faculty Kanban</field>
+            <field name="model">op.faculty</field>
+            <field name="inherit_id" ref="openeducat_core.kanban_view_faculty"/>
+            <field name="arch" type="xml">
+                <xpath expr="//ul" position="replace">
+                    <ul>
+                        <li t-if="record.account_id.raw_value">
+                            Faculty ID: <b><field name="account_id"/></b>
+                        </li>
+                         <li t-if="record.email.raw_value">
+                            <a t-attf-href="mailto:#{record.email.value}">
+                                <field name="email" />
+                            </a>
+                        </li>
+                    </ul>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,78 @@
+<openerp>
+  <data>
+        <!-- Hidden Group Menu -->
+        <record id="hide" model="res.groups">
+            <field name="name">Hidden</field>
+            <field name="comment">Hidden</field>
+        </record>
+        <!-- Hide Menu -->
+        <!-- <menuitem id="module.menu_id" groups="hide"/> -->
+
+        <!-- OpenEducat Modules -->
+        <!-- Parents -->
+        <!-- <menuitem id="openeducat_parent.menu_op_parent_root" groups="hide"/> -->
+        <!-- TimeTable -->
+        <!-- <menuitem id="openeducat_timetable.menu_op_timetable_root" groups="hide"/> -->
+        <!-- Library -->
+        <!-- <menuitem id="openeducat_library.menu_op_library_root" groups="hide"/> -->
+        <!-- Admissions -->
+        <!-- <menuitem id="openeducat_admission.menu_op_admission_root" groups="hide"/> -->
+        <!-- Attendance -->
+        <!-- <menuitem id="openeducat_attendance.menu_op_attendance_root" groups="hide"/> -->
+        <!-- Exams -->
+        <!-- <menuitem id="openeducat_exam.menu_op_exam_root" groups="hide"/> -->
+        <!-- Assignments -->
+        <!-- <menuitem id="openeducat_assignment.menu_op_assignment_root" groups="hide"/> -->
+        <!-- OpenEducat -->
+        <menuitem id="openeducat_core.menu_op_school_root" name="Education" groups="openeducat_core.group_op_back_office,openeducat_core.group_op_back_office_admin"/>
+            <!-- General -->
+            <record model="ir.ui.menu" id="openeducat_core.menu_op_general_student">
+                <field name="groups_id" eval="[(6, 0, [ref('hide')])]"/>
+            </record>
+            <!-- Activity Logs -->
+            <!-- <record model="ir.ui.menu" id="openeducat_activity.menu_op_activity_sub">
+                <field name="groups_id" eval="[(6, 0, [ref('hide')])]"/>
+            </record> -->
+            <!-- Subject Registration -->
+            <record model="ir.ui.menu" id="openeducat_core.subject_registration_faculty_menu">
+                <field name="groups_id" eval="[(6, 0, [ref('hide')])]"/>
+            </record>
+            <record model="ir.ui.menu" id="openeducat_core.subject_registration_student_menu">
+                <field name="groups_id" eval="[(6, 0, [ref('hide')])]"/>
+            </record>
+            <!-- Course Management -->
+            <menuitem id="openeducat_core.menu_op_school_config_course" groups="hide"/>
+            <!-- General Management -->
+            <menuitem id="openeducat_core.menu_op_school_config_general" groups="hide"/>
+
+        <!-- Odoo Modules -->
+        <!-- Website -->
+        <record model="ir.ui.menu" id="website.menu_website_configuration">
+            <field name="groups_id" eval="[(6, 0, [ref('hide')])]"/>
+        </record>
+        <!-- Employees -->
+        <record model="ir.ui.menu" id="hr.menu_hr_root">
+            <field name="groups_id" eval="[(6, 0, [ref('hide')])]"/>
+        </record>
+        <!-- Invoicing -->
+        <!-- <record model="ir.ui.menu" id="account.menu_finance">
+            <field name="groups_id" eval="[(6, 0, [ref('hide')])]"/>
+        </record> -->
+        <!-- Dashboards -->
+        <record model="ir.ui.menu" id="base.menu_board_root">
+            <field name="groups_id" eval="[(6, 0, [ref('hide')])]"/>
+        </record>
+        <!-- Students: 'Profile' -->
+        <record model="ir.ui.menu" id="openeducat_core.menu_op_student_main_student">
+            <field name="name"></field>
+        </record>
+        <!-- Faculty: 'Profile' -->
+         <menuitem id="menu_op_faculty_main_faculty" name=" "
+            parent="openeducat_core.menu_op_faculty_root" sequence="20"
+            action="openeducat_core.act_open_op_faculty_view" groups="openeducat_core.group_op_faculty" />
+        <!-- Discuss -->
+        <record model="ir.ui.menu" id="mail.mail_channel_menu_root_chat">
+            <field name="groups_id" eval="[(6, 0, [ref('hide')])]"/>
+        </record>
+  </data>
+</openerp>

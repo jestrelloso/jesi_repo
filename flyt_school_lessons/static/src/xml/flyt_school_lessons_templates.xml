@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="aboutme_video">
+        <video src="" controls="" style="width: 100%;" controlsList="nodownload"/>
+    </t>
+</templates>

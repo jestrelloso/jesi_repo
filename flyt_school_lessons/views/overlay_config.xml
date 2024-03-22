@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+    <data>
+        <record id="view_overlay_settings_tree" model="ir.ui.view">
+             <field name="name">fsl.overlay.config.tree</field>
+             <field name="model">fsl.overlay.config</field>
+             <field name="arch" type="xml">
+                 <tree string="Overlay Batch Process Settings">
+                     <field name="weekday_from"/>
+                     <field name="weekday_to"/>
+                     <field name="time_start" />
+                     <field name="time_end" />
+                     <field name="no_of_batch_to_process" />
+                 </tree>
+             </field>
+        </record>
+        
+         <record id="view_overlay_settings_form" model="ir.ui.view">
+             <field name="name">fsl.overlay.config.form</field>
+             <field name="model">fsl.overlay.config</field>
+             <field name="arch" type="xml">
+                 <form string="Overlay Batch Process Settings">
+                    <sheet>
+                        <group>
+                            <field name="weekday_from"/>
+                            <field name="weekday_to"/>
+                            <field name="time_start" widget="timepicker"/>
+                            <field name="time_end" widget="timepicker"/>
+                            <field name="no_of_batch_to_process"/>
+                        </group>
+                    </sheet>
+                 </form>
+             </field>
+        </record>
+
+        <record id="action_overlay_config" model="ir.actions.act_window">
+            <field name="name">Overlay Settings</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">fsl.overlay.config</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem 
+            id="overlay_menu_config"
+            name="Overlay Settings"
+            parent="base.menu_administration"
+            action="action_overlay_config"
+            groups="base.group_system"/>
+        
+        <record id="view_jesi_settings_form" model="ir.ui.view">
+            <field name="name">res.config.settings.view.form</field>
+            <field name="model">res.config.settings</field>
+            <field name="priority" eval="101"/>
+            <field name="inherit_id" ref="base.res_config_settings_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//div[@id='business_documents']" position="before">
+                    <div id="evaluators_count">
+                        <h2>Evaluators Count</h2>
+                        <div class="row mt16 o_settings_container" name="evaluators_count">
+                            <div class="o_setting_box">
+                                <div class="o_setting_right_pane">
+                                    <label for="default_evaluators_count"/>
+                                    <field name="default_evaluators_count" style="width:25%%"/>
+                                    <button 
+                                        class="btn btn-primary"
+                                        name="apply_to_all_lesson"
+                                        confirm="Are you sure you want to apply it to all peer to peer lessons?"
+                                        type="object">Apply to all lesson</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="terms_and_condition">
+                        <h2>Terms and Condition</h2>
+                        <div class="row mt16 o_settings_container">
+                            <div class="o_setting_box">
+                                <label for="terms_and_condition" string="Terms and Condition" class="col-xs-3 col-md-3 o_light_label"/>
+                                <field name="terms_and_condition" class="oe_inline" required="1"/>
+                            </div>
+                        </div>
+                    </div>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

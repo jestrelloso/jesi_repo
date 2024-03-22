@@ -1,0 +1,27 @@
+.black-and-white {
+    -webkit-filter: grayscale(100%); /* Safari 6.0 - 9.0 */
+    filter: grayscale(100%);
+}
+
+.hidden {
+    visibility: hidden;
+}
+/*
+.fs-story-board {
+    width: 100%;
+    margin-bottom: 10px;
+}*/
+
+div.fs-story-container {
+    margin-bottom: 15px;
+    height: 200px;
+}
+
+.existing-attachments {
+    padding: 8px 8px;
+    background-color: white;
+}
+
+.existing-attachments:before, .existing-attachment:after {
+    clear: both;
+}

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record id="view_evaluation_tree" model="ir.ui.view">
+            <field name="name">fs.evaluation.tree</field>
+            <field name="model">fs.evaluation</field>
+            <field name="arch" type="xml">
+                <tree string="Evaluation">
+                    <field name="icon_attachment_display"/>
+                    <field name="name"/>
+                    <field name="value"/>
+                    <field name="description"/>
+                </tree>
+            </field>
+        </record>
+        <record id="view_evaluation_search" model="ir.ui.view">
+            <field name="name">fs.evaluation.search</field>
+            <field name="model">fs.evaluation</field>
+            <field name="arch" type="xml">
+                <search string="Evaluation">
+                    <field name="small_icon"/>
+                    <field name="name"/>
+                    <field name="value"/>
+                </search>
+            </field>
+        </record>
+        <record model="ir.actions.act_window" id="act_open_evaluation_view">
+            <field name="name">Evaluations</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">fs.evaluation</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="search_view_id" ref="view_evaluation_search" />
+        </record>
+        
+        <menuitem id="menu_op_school_config_evaluation" name="Evaluation Management" parent="openeducat_core.menu_op_school_config" sequence="4"/>
+        <menuitem id="menu_op_evaluation_sub" name="Evaluations" parent="menu_op_school_config_evaluation" action="act_open_evaluation_view" groups="openeducat_core.group_op_back_office,openeducat_core.group_op_back_office_admin"/>
+    </data>
+</odoo>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+        <record id="view_evaluation_report_pivot" model="ir.ui.view">
+            <field name="name">fsl.evaluation_report.pivot</field>
+            <field name="model">fsl.evaluation_report</field>
+            <field name="arch" type="xml">
+                <pivot string="Evaluation Report" disable_linking="True">
+                    <field name="name" type="row"/>
+                    <field name="survey_id" type="col"/>
+                    <field name="quizz_score" type="measure"/>
+                </pivot>
+            </field>
+        </record>
+
+        <record id="view_evaluation_report_search" model="ir.ui.view">
+            <field name="name">fsl.evaluation_report.search</field>
+            <field name="model">fsl.evaluation_report</field>
+            <field name="arch" type="xml">
+               <search string="Evaluation Filter">
+                    <field name="survey_id" string="Lesson" />
+                    <field name="name" string="Student" />
+               </search>
+            </field>
+        </record>
+</odoo>
